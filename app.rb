@@ -4,10 +4,10 @@ class App
 
   def call(env)
     request   = Rack::Request.new(env)
-    @response = Rack::Response.new([], 404, { 'Content-Type' => 'text/plain' })
+    @response = Rack::Response.new([], 200, { 'Content-Type' => 'text/plain' })
 
     if request.path_info == '/time'
-      time_response(request.params)
+      not_found_response(request.params)
     else
       @response.write "Unknown time format #{request.path_info}"
       @response.status = 404
@@ -15,7 +15,7 @@ class App
     @response.finish
   end
 
-  def time_response(params)
+  def not_found_response(params)
     formatter = TimeFormat.new(params)
     if formatter.result
       @response.write formatter.result
